@@ -1,45 +1,119 @@
-body {
-    font-family: Arial, sans-serif;
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
     padding: 20px;
-    background-color: #f0f0f0;
 }
 
 .chat-container {
     max-width: 800px;
     margin: 0 auto;
     background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 .messages {
-    height: 400px;
+    height: 500px;
     overflow-y: auto;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.username {
+    font-weight: bold;
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.time {
+    font-size: 0.8em;
+    color: #6c757d;
+}
+
+.message-text {
+    margin-top: 5px;
+    color: #333;
+}
+
+.system-message {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    margin: 10px 0;
 }
 
 .input-area {
     display: flex;
     gap: 10px;
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #dee2e6;
 }
 
-input, button {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #007bff;
 }
 
 button {
+    padding: 12px 25px;
     background: #007bff;
     color: white;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s;
 }
 
 button:hover {
     background: #0056b3;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Полоса прокрутки */
+.messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }
