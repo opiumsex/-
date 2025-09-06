@@ -5,6 +5,8 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+
+// Настройка CORS для Socket.IO
 const io = socketIo(server, {
     cors: {
         origin: "*",
@@ -12,52 +14,56 @@ const io = socketIo(server, {
     }
 });
 
-// Статическая директория для фронтенда
+// Middleware
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
-// Маршрут для главной страницы
+// Маршруты
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Хранение сообщений (в памяти)
+// Хранение сообщений
 let messages = [];
 
-// Обработка подключений
+// Socket.IO соединения
 io.on('connection', (socket) => {
-    console.log('Новый пользователь подключен:', socket.id);
+    console.log('✅ Новый пользователь подключен:', socket.id);
 
-    // Отправка истории сообщений новому пользователю
+    // Отправляем историю сообщений новому пользователю
     socket.emit('messageHistory', messages);
 
-    // Получение сообщения от клиента
+    // Обработка отправки сообщения
     socket.on('sendMessage', (data) => {
+        console.log('📨 Получено сообщение:', data);
+        
         const messageData = {
             id: Date.now(),
-            username: data.username,
+            username: data.username || 'Аноним',
             message: data.message,
-            timestamp: new Date().toLocaleTimeString()
+            timestamp: new Date().toLocaleTimeString('ru-RU')
         };
 
-        // Сохраняем сообщение
+        // Добавляем сообщение в историю
         messages.push(messageData);
         
-        // Ограничиваем историю последними 100 сообщениями
+        // Ограничиваем историю
         if (messages.length > 100) {
             messages = messages.slice(-100);
         }
 
-        // Отправка сообщения всем подключенным клиентам
+        // Отправляем всем клиентам
         io.emit('newMessage', messageData);
-        console.log('Сообщение отправлено:', messageData);
+        console.log('📤 Сообщение отправлено всем:', messageData);
     });
 
     socket.on('disconnect', () => {
-        console.log('Пользователь отключен:', socket.id);
+        console.log('❌ Пользователь отключен:', socket.id);
     });
 });
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`Сервер запущен на порту ${PORT}`);
+    console.log(`🚀 Сервер запущен на порту ${PORT}`);
+    console.log(`📱 Откройте http://localhost:${PORT} в браузере`);
 });
