@@ -9,8 +9,8 @@
         <div id="messages" class="messages"></div>
         <div class="input-area">
             <input type="text" id="username" placeholder="Ваше имя">
-            <input type="text" id="messageInput" placeholder="Введите сообщение">
-            <button onclick="sendMessage()">Отправить</button>
+            <input type="text" id="messageInput" placeholder="Введите сообщение" onkeypress="handleKeyPress(event)">
+            <button type="button" onclick="sendMessage()">Отправить</button>
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
